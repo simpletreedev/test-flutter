@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:my_app/components/column_right/cart/total/cart_empty/cart_empty.dart';
 import 'package:my_app/components/column_right/cart/total/cart_pay/cart_pay.dart';
 import 'package:my_app/constants.dart';
+import 'package:my_app/models/cart_model.dart';
+import 'package:provider/provider.dart';
 
 class Total extends StatelessWidget {
-  final dynamic value;
-
-  Total({required this.value});
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<CartModel>(context, listen: false);
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -25,7 +26,7 @@ class Total extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                '\$${value.calculateTotal()}',
+                '\$${provider.calculateTotal()}',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -54,7 +55,7 @@ class Total extends StatelessWidget {
                         fontWeight: FontWeight.bold)),
                 Spacer(),
                 Text(
-                  '\$${value.calculateTotal()}',
+                  '\$${provider.calculateTotal()}',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -63,6 +64,7 @@ class Total extends StatelessWidget {
               ],
             ),
           ),
+
           CartEmpty(),
           SizedBox(height: 10),
           CartPay(),

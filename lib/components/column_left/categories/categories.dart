@@ -12,15 +12,16 @@ class Categories extends StatefulWidget {
       required this.onCategorySelected});
 
   @override
-  CategoriesState createState() => CategoriesState();
+  State<Categories> createState() => _CategoriesState();
 }
 
-class CategoriesState extends State<Categories> {
+class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: widget.categories.length,
         child: Container(
+          alignment: Alignment.topLeft,
           height: 36,
           decoration: BoxDecoration(color: kTealColor),
           child: TabBar(

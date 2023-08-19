@@ -1,104 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_app/components/column_left/categories/categories.dart';
 import 'package:my_app/components/column_left/header_column_left/header_column_left.dart';
 import 'package:my_app/components/column_left/list_products/list_products.dart';
 import 'package:my_app/fetch_api.dart';
-import 'package:my_app/models/cart_model.dart';
-import 'package:provider/provider.dart';
 
 class ColumnLeft extends StatefulWidget {
   @override
-  ColumnLeftState createState() => ColumnLeftState();
+  State<ColumnLeft> createState() => _ColumnLeftState();
 }
 
-class ColumnLeftState extends State<ColumnLeft> {
-  List<dynamic> categories = [], products = [], productsOfCat = [];
-  String cat = 'Beef';
-  String? selectedCat;
-  // final _scrollController = ScrollController();
-  // int numLoad = 0;
+class _ColumnLeftState extends State<ColumnLeft> {
+  List<dynamic> _categories = [], _products = [], _allProducts = [];
+  String? _selectedCat;
 
   // load first
   Future<void> initProducts() async {
+    EasyLoading.show(status: 'Loading...');
+
+    // fetch categories
     List<dynamic> cats = await fetchCategories();
     setState(() {
-      categories = cats;
+      _categories = cats;
     });
-    productsOfCat = await fetchProducts(cat: cat);
+
+    // all products
+    List<dynamic> productsTmp = [], productsOfCat = [];
+    for (dynamic cat in _categories) {
+      if (cat != 'All') {
+        productsOfCat = await fetchProducts(cat: cat);
+        setState(() {
+          productsTmp.addAll(productsOfCat);
+        });
+      }
+    }
+
     setState(() {
-      products.addAll(productsOfCat);
+      _allProducts.addAll(productsTmp);
     });
+
+    EasyLoading.dismiss();
   }
 
   // selected category
   void updateSelectedCategory(String? category) {
     setState(() {
-      selectedCat = category;
+      _selectedCat = category;
     });
   }
 
   // filter products by category selected
   Future<List<dynamic>> filterProductsByCategory() async {
-    if (selectedCat == null) {
-      return products;
+    if (_selectedCat == null || _selectedCat == 'All') {
+      return _allProducts;
     } else {
-      products = await fetchProducts(cat: selectedCat.toString());
-      return products;
+      EasyLoading.show(status: 'Loading...');
+      _products = await fetchProducts(cat: _selectedCat.toString());
+      EasyLoading.dismiss();
+      return _products;
     }
   }
-
-  // load more when scroll down
-  // Future<void> _loadMoreData() async {
-  //   if (numLoad < categories.length) {
-  //     productsOfCat = await fetchProducts(cat: categories[numLoad]);
-
-  //     setState(() {
-  //       products.addAll(productsOfCat);
-  //     });
-  //   }
-  // }
-
-  //
-  // void _scrollListener() {
-  //   if (_scrollController.offset ==
-  //       _scrollController.position.maxScrollExtent) {
-  //     setState(() {
-  //       numLoad++;
-  //     });
-
-  //     _loadMoreData();
-  //   }
-  // }
 
   //
   @override
   void initState() {
     super.initState();
     initProducts();
-    // _scrollController.addListener(_scrollListener);
   }
-
-  //
-  // @override
-  // void dispose() {
-  //   _scrollController.removeListener(_scrollListener);
-  //   _scrollController.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<CartModel>(context, listen: false).initItems(products);
     return Column(
       children: [
         HeaderColumnLeft(),
         Categories(
-            categories: categories,
-            selectedCat: selectedCat,
+            categories: _categories,
+            selectedCat: _selectedCat,
             onCategorySelected: updateSelectedCategory),
         Expanded(
             child: SingleChildScrollView(
-                // controller: _scrollController,
                 child: ListProducts(productsData: filterProductsByCategory())))
       ],
     );

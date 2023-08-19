@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 class ColumnRight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Provider.of<CartModel>(context, listen: false).initCartItems();
+    
     return Consumer<CartModel>(
       builder: (context, value, child) {
         return Container(
@@ -43,9 +45,7 @@ class ColumnRight extends StatelessWidget {
                                             color: kGrayColor, width: 1))),
                                 child: Column(
                                   children: [
-                                    CartItem(
-                                        cartItem: value.cartItems[index]!,
-                                        cartItemIndex: index)
+                                    CartItem(cartItem: value.cartItems[index])
                                   ],
                                 ),
                               );
@@ -54,7 +54,7 @@ class ColumnRight extends StatelessWidget {
                         )),
 
               // total cart
-              Total(value: value)
+              Total()
             ],
           ),
         );
