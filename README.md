@@ -1,16 +1,27 @@
-# my_app
+# Shopping cart
 
-A new Flutter project.
+## 1. App UI
+![flutter-shopping-cart](https://res.cloudinary.com/djqxdscwh/image/upload/v1691411144/social-app/mbbc5zw5luzdngx7iwe4.png)
 
-## Getting Started
+## 2. Done
+* Loading
+* Filter products by category.
+* Add product to cart.
+* Adjust quantity of product.
+* Remove product from cat / clear cart.
 
-This project is a starting point for a Flutter application.
+## 3. How to run this project
+Clone this repository using following command.
 
-A few resources to get you started if this is your first Flutter project:
+```
+git clone https://github.com/walksoflife/test-flutter.git
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Then navigate to the project and start the application using following command.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+flutter run
+```
+
+Runs the app in the connected device or emulator.
+
