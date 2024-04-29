@@ -7,6 +7,8 @@ import 'package:my_app/models/cart_model.dart';
 import 'package:provider/provider.dart';
 
 class ColumnRight extends StatelessWidget {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     Provider.of<CartModel>(context, listen: false).initCartItems();
@@ -35,6 +37,7 @@ class ColumnRight extends StatelessWidget {
                       : Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: ListView.builder(
+                            controller: _scrollController,
                             itemCount: value.cartItems.length,
                             itemBuilder: (context, index) {
                               return Container(

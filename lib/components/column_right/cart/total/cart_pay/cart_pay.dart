@@ -18,7 +18,7 @@ class CartPay extends StatelessWidget {
           _buildCartPayItem(label: 'SHIPPING', icon: Icons.local_shipping),
           SizedBox(width: 10),
           _buildCartPayItem(
-              label: 'SUSPEND & SAVE CART', icon: Icons.shopping_cart_rounded),
+              label: 'SUSPEND', icon: Icons.shopping_cart_rounded),
           SizedBox(width: 10),
           Flexible(
               flex: 2,
@@ -38,7 +38,7 @@ class CartPay extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildCartPayItem({required String label, required IconData icon}) {
     return Flexible(
         flex: 1,
@@ -55,7 +55,7 @@ class CartPay extends StatelessWidget {
               Icon(
                 icon,
                 color: kWhiteColor,
-                size: 18,
+                size: 16,
               ),
               SizedBox(height: 6),
               SizedBox(
